@@ -1,0 +1,128 @@
+mustafa sarýkaya 2013010213081 bilgisayar müh.%100 1.öðr 3.sýnýf
+
+package projem;
+
+import java.io.IOException;
+import java.net.*;
+import java.io.*;      
+
+public class istemciForm extends javax.swing.JFrame {
+    
+     static Socket istemci;
+     static DataInputStream veriAl;
+     static DataOutputStream veriGonder;
+
+    public istemciForm() {
+        initComponents();
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        button1 = new java.awt.Button();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        button1.setLabel("Mesajý Gönder");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+     
+    }                                           
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {                                        
+         try {
+           veriGonder.writeUTF(jTextField2.getText());
+           jTextField2.setText("");
+        }
+        catch (IOException hata) {
+            jTextField1.setText(hata.getMessage());
+        }
+    }                                       
+
+
+    public static void main(String args[]) {
+             
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(istemciForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(istemciForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(istemciForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(istemciForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+      
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new istemciForm().setVisible(true);
+            }
+        });
+       
+        String veri="";
+        try {
+            istemci= new Socket("localhost",7878);
+            veriAl= new DataInputStream(istemci.getInputStream());
+            veriGonder=new DataOutputStream(istemci.getOutputStream());
+            while (true) {
+                veri=veriAl.readUTF();
+                jTextField1.setText("Sunucudan Gelen Mesaj: "+veri);       
+             }
+        }
+        
+        catch (IOException hata) {
+            jTextField1.setText(hata.getMessage());
+        }                   
+    }
+
+    // Variables declaration - do not modify                     
+    private java.awt.Button button1;
+    public static javax.swing.JTextField jTextField1;
+    public static javax.swing.JTextField jTextField2;
+    // End of variables declaration                   
+}
+
+
